@@ -13,7 +13,7 @@ BOT_TOKEN = "7828525928:AAGZIUO4QnLsD_ITKGSkfN5NlGP3UZvU1OM"  # Replace with you
 bot = telebot.TeleBot(BOT_TOKEN)
 GROUP_ID = "-1002298552334" 
 # Admin IDs
-admin_id = ["7163028849","6039703925"]  # Replace with your Telegram user ID
+admin_id = ["7163028849","6039703925","7111407416"]  # Replace with your Telegram user ID
 
 # Constants
 USER_FILE = "users.txt"
