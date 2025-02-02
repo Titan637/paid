@@ -9,7 +9,7 @@ from PIL import Image
 import imagehash
 
 # Bot initialization
-BOT_TOKEN = "7551284734:AAEvogSRPk8ARZb5ON8yG90zrH9kvjrDSRw"  # Replace with your bot token
+BOT_TOKEN = "7788865701:AAHg0Ii5mPeIJcReFzGgSg_4qFaN8pF9ArQ"  # Replace with your bot token
 bot = telebot.TeleBot(BOT_TOKEN)
 GROUP_ID = "-1002124760113" 
 # Admin IDs
