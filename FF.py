@@ -11,7 +11,13 @@ import imagehash
 # Bot initialization
 BOT_TOKEN = "7828525928:AAGZIUO4QnLsD_ITKGSkfN5NlGP3UZvU1OM"  # Replace with your bot token
 bot = telebot.TeleBot(BOT_TOKEN)
-GROUP_ID = "-1002124760113" 
+
+# Channel ID for sending feedback
+CHANNEL_ID = "-1002124760113"  # Replace with your channel ID
+
+# Group ID for restricting the /bgmi command
+GROUP_ID = "-1002298552334"  # Replace with your group ID
+
 # Admin IDs
 admin_id = ["7163028849","6039703925","7111407416"]  # Replace with your Telegram user ID
 
@@ -41,16 +47,24 @@ def save_users():
     with open(USER_FILE, "w") as file:
         file.write("\n".join(allowed_user_ids))
 
-# Command: /bgmi (Attack command with cooldown)
-import time
-import subprocess
-from threading import Thread
-import datetime
+# Helper function to get the hash of an image
+def get_image_hash(image_data):
+    image = Image.open(image_data)
+    return imagehash.average_hash(image)
+
+# Fix: Function to ensure safe file paths
+def sanitize_filename(filename):
+    return "".join(c for c in filename if c.isalnum() or c in (".", "_", "-")).rstrip()
 
 # Command: /bgmi (Attack command with cooldown)
 @bot.message_handler(commands=['bgmi'])
 def handle_bgmi(message):
     user_id = str(message.chat.id)
+
+    # Check if the command is used in the specific group
+    if str(message.chat.id) != GROUP_ID:
+        bot.reply_to(message, "This command is only available in the specific group. 🚫")
+        return
 
     # Check if the user has previously attacked
     if user_id in last_attack_time:
@@ -58,8 +72,8 @@ def handle_bgmi(message):
         elapsed_time = (datetime.datetime.now() - last_attack_time[user_id]).total_seconds()
         
         # If the cooldown has not passed (180 seconds)
-        if elapsed_time < 180:
-            remaining_cooldown = 180 - int(elapsed_time)
+        if elapsed_time < default_cooldown_time:
+            remaining_cooldown = default_cooldown_time - int(elapsed_time)
             bot.reply_to(message, f"🥶 𝗖𝗢𝗢𝗟𝗗𝗢𝗪𝗡 𝗦𝗧𝗔𝗥𝗧 🥶 \n\n𝗘𝗡𝗗 𝗧𝗜𝗠𝗘 👉 {remaining_cooldown} 𝗦𝗘𝗖𝗢𝗡𝗗\n𝗕𝗘𝗙𝗢𝗥𝗘 𝗧𝗥𝗬 𝗡𝗘𝗪 𝗔𝗧𝗧𝗔𝗖𝗞")
             return
 
@@ -77,7 +91,7 @@ def handle_bgmi(message):
             bot.reply_to(message, "𝗜𝗡𝗩𝗔𝗟𝗜𝗗 𝗗𝗨𝗥𝗔𝗧𝗜𝗢𝗡 ⚠️ --> 𝟲𝟬")
             return
 
-        # Perform the attack (same as previous code)
+        # Perform the attack
         current_time = datetime.datetime.now()
         last_attack_time[user_id] = current_time  # Update the last attack time
 
@@ -91,7 +105,7 @@ def handle_bgmi(message):
         markup.add(countdown_button)
 
         # Send the attack start message
-        start_message = bot.reply_to(message, f"🩷 𝗔𝗧𝗧𝗔𝗖𝗞 𝗦𝗧𝗔𝗥𝗧𝗘𝗗 🩷\n\n☀️𝚃𝙰𝚁𝙶𝙴𝚃 - {target} \n☀️𝙿𝙾𝚁𝚃 {port} \n☀️𝚂𝙴𝙲𝙾𝙽𝙳𝚂 {duration}\n\n𝙰𝚃𝚃𝙰𝙲𝙺 𝙱𝚈 𝚃𝙸𝚃𝙰𝙽", reply_markup=markup)
+        start_message = bot.reply_to(message, f"🩷 𝗔𝗧𝗧𝗔𝗖𝗞 𝟮 𝗦𝗧𝗔𝗥𝗧𝗘𝗗 🩷\n\n☀️𝚃𝙰𝚁𝙶𝙴𝚃 - {target} \n☀️𝙿𝙾𝚁𝚃 {port} \n☀️𝚂𝙴𝙲𝙾𝙽𝙳𝚂 {duration}\n\n𝙰𝚃𝚃𝙰𝙲𝙺 𝙱𝚈 𝚃𝙸𝚃𝙰𝙽", reply_markup=markup)
 
         # Run the attack in a separate thread
         def execute_attack(user_id, target, port, duration):
@@ -128,32 +142,6 @@ def handle_bgmi(message):
 
     else:
         bot.reply_to(message, "ᴘʟᴇᴀꜱᴇ ꜱᴇɴᴅ ꜰᴇᴇᴅʙᴀᴄᴋ ᴏꜰ \nʟᴀꜱᴛ ᴀᴛ𝚝𝚊𝑐𝚔 ʙᴇꜰᴏʀᴇ ʀᴜɴ\nʏᴏᴜʀ ɴᴇ𝚇ᴛ ᴀᴛ𝚝𝚊𝑐𝚔 😞")
-
-# Helper function to get the hash of an image
-def get_image_hash(image_data):
-    image = Image.open(image_data)
-    return imagehash.average_hash(image)
-
-import imagehash
-from PIL import Image
-import hashlib
-
-# Dictionary to store previously uploaded image hashes
-image_hashes = {}
-
-# Helper function to get the hash of an image
-def save_users():
-    with open(USER_FILE, "w") as file:
-        file.write("\n".join(allowed_user_ids))
-
-# Helper function to get the hash of an image
-def get_image_hash(image_data):
-    image = Image.open(image_data)
-    return imagehash.average_hash(image)
-
-# Fix: Function to ensure safe file paths
-def sanitize_filename(filename):
-    return "".join(c for c in filename if c.isalnum() or c in (".", "_", "-")).rstrip()
 
 # Bot photo handler (Fixes lstat: embedded null character in path)
 @bot.message_handler(content_types=['photo'])
@@ -194,9 +182,9 @@ def handle_photo(message):
         # Store the hash for the current user
         image_hashes[image_hash] = user_id
 
-        # Send the downloaded file to the group
+        # Send the downloaded file to the channel
         with open(image_path, "rb") as file:
-            bot.send_photo(GROUP_ID, file)
+            bot.send_photo(CHANNEL_ID, file)
         
         bot.reply_to(message, "𝗙𝗘𝗘𝗗𝗕𝗔𝗖𝗞 𝗥𝗘𝗖𝗘𝗜𝗩𝗘𝗗 ✅ \n𝗡𝗢𝗪 𝗬𝗢𝗨 𝗖𝗔𝗡 𝗨𝗦𝗘 ✅")
 
@@ -207,6 +195,7 @@ def handle_photo(message):
     except Exception as e:
         bot.reply_to(message, f"Error ❌: {e}")
 
+# Command: /user_cooldown
 @bot.message_handler(commands=['user_cooldown'])
 def reset_cooldown(message):
     if str(message.chat.id) in admin_id:
@@ -227,7 +216,7 @@ def reset_cooldown(message):
 def reset_all_cooldowns(message):
     if str(message.chat.id) in admin_id:
         last_attack_time.clear()  # Clear cooldowns for all users
-        bot.reply_to(message, "✅ 𝗖𝗼𝗼𝗹𝗱𝗼𝘄𝗻 𝗥𝗲𝘀𝗲𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹 𝗙𝗼𝗿 𝗔𝗹𝗹 ✅")
+        bot.reply_to(message, "✅ 𝗖𝗼𝗼𝗹𝗱𝗼𝘄𝗻 𝗥𝗲𝘀𝗲𝘁 𝗦𝘂𝘀𝘀𝗲𝘀𝘀𝗳𝘂𝗹 𝗙𝗼𝗿 𝗔𝗹𝗹 ✅")
     else:
         bot.reply_to(message, "ʏᴏᴜ ᴄᴀɴ ɴᴏᴛ 🚫 ʀᴇꜱᴇᴛ ᴜꜱᴇʀ ᴄᴏᴏʟᴅᴏᴡɴ")
 
