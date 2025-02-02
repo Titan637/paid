@@ -287,8 +287,8 @@ def show_help(message):
         "❤️‍🔥 /bgmi ♦️ /approve 🏷️ /disapprove \n"
         "🙅 /stop_all 🤯 /resetcooldown\n"
         "☢️ /user_cooldown 🥶 /help 🥰 /plan\n\n"
-        "    ❤️Owner - @S4_LUCHI  \n\n"
-        "𝙵𝚞𝚕𝚕𝚢 𝚄𝚙𝚐𝚛𝚊𝚍𝚎𝚍 𝙱𝚘𝚝 𝙱𝚢 𝚂𝟺\n\n"
+        "    ❤️Owner - @TITANOP24  \n\n"
+        "𝙵𝚞𝚕𝚕𝚢 𝚄𝚙𝚐𝚛𝚊𝚍𝚎𝚍 𝙱𝚘𝚝 𝙱𝚢 TITAN\n\n"
         "☠ 𝕤❹ ⓞғ𝔽ιᑕ𝐈𝓪Ｌ 𝔤ｒᵖ ☠"
     )
     bot.reply_to(message, help_text)
