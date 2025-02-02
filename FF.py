@@ -11,7 +11,7 @@ import imagehash
 # Bot initialization
 BOT_TOKEN = "7828525928:AAGZIUO4QnLsD_ITKGSkfN5NlGP3UZvU1OM"  # Replace with your bot token
 bot = telebot.TeleBot(BOT_TOKEN)
-GROUP_ID = "-1002298552334" 
+GROUP_ID = "-1002124760113" 
 # Admin IDs
 admin_id = ["7163028849","6039703925","7111407416"]  # Replace with your Telegram user ID
 
