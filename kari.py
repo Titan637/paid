@@ -101,8 +101,8 @@ def attack(message):
 
     try:
         duration = int(duration)
-        if duration > 180:
-            duration = 180
+        if duration > 60:
+            duration = 60
     except ValueError:
         bot.send_message(
             message.chat.id,
